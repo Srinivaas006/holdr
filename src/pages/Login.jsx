@@ -28,7 +28,7 @@ export default function Login() {
   return (
     <div className="auth-screen">
       <Link to="/" className="auth-brand">
-        Vaultbox
+        Holdr
       </Link>
       <div className="auth-card">
         <h1>Welcome back</h1>

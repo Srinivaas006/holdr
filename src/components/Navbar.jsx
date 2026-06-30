@@ -14,7 +14,7 @@ export default function Navbar() {
     <header className="dash-nav">
       <div className="brand">
         <span className="brand-mark">V</span>
-        <span>Vaultbox</span>
+        <span>Holdr</span>
       </div>
       <div className="dash-user">
         <span className="dash-user-name">{user?.displayName || user?.email}</span>

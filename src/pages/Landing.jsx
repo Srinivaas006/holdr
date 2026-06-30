@@ -7,7 +7,7 @@ export default function Landing() {
       <header className="landing-nav">
         <div className="brand">
           <span className="brand-mark">V</span>
-          <span>Vaultbox</span>
+          <span>Holdr</span>
         </div>
         <nav>
           <Link to="/login" className="nav-link">
@@ -28,7 +28,7 @@ export default function Landing() {
             where you can <em>actually</em> find it.
           </h1>
           <p className="hero-sub">
-            Vaultbox is a personal file vault. Upload, organise, and hand out
+            Holdr is a personal file vault. Upload, organise, and hand out
             access only to the people who need it. No clutter, no ads, no
             surprise charges.
           </p>
@@ -100,7 +100,7 @@ export default function Landing() {
       </section>
 
       <footer className="landing-footer">
-        <span>Vaultbox</span>
+        <span>Holdr</span>
         <span>Built for keeping things in order.</span>
       </footer>
     </div>
