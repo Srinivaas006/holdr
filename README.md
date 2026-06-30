@@ -1,8 +1,8 @@
-# Vaultbox
+# Holdr
 
-A personal file vault built with React, Firebase, and Supabase. Sign up,
-log in, upload files, download them, delete them. Files are organised
-into per-user folders.
+A secure personal cloud storage web app where users sign up, upload
+files, and access them from anywhere. Files are organised into
+per-user folders so nobody else can see or touch what isn't theirs.
 
 Auth and file metadata run on Firebase (Auth + Firestore). The actual
 file bytes are stored on Supabase Storage, because Firebase Cloud
@@ -21,8 +21,8 @@ free-tier usage. Supabase Storage stays free with no card.
 1. Go to https://supabase.com and create a free account, no card needed.
 2. Create a new project, pick a region close to you, set a database
    password (you won't need it for this app, Supabase asks anyway).
-3. Project Settings -> API -> copy the Project URL and the anon public
-   key.
+3. Project Settings -> API -> copy the Project URL and the Publishable
+   key (sometimes labelled the anon public key).
 4. SQL Editor -> paste the contents of `supabase_storage_policies.sql`
    from this project and run it. This creates the storage bucket and
    the access rules for it.
@@ -55,13 +55,31 @@ keeps one user's file records invisible to another user.
 
 ## 6. Deploy
 
+### Firebase Hosting
 ```
 npm run build
 firebase deploy
 ```
+You'll get a free `yourproject.web.app` link.
 
-You'll get a free `yourproject.web.app` link. Supabase needs no
-deployment step, it's already a hosted service.
+### Render (Static Site)
+- Push this project to a GitHub repo.
+- On Render: New -> Static Site -> connect the repo.
+- Build command: `npm install && npm run build`
+- Publish directory: `dist`
+- Add all 8 keys from `.env` as environment variables in Render's
+  dashboard under Environment.
+- Once deployed, go to Firebase console -> Authentication -> Settings
+  -> Authorized domains, and add your Render URL, or login will fail
+  on the live site even though it works locally.
+
+## Storage limits (free tier)
+
+- Supabase Storage: 1 GB storage, 2 GB bandwidth per month. This is
+  the real ceiling for how much you can upload in total.
+- Firestore: 1 GB for metadata documents, far more than a personal
+  project will ever use since it only stores filenames and file info,
+  not the files themselves.
 
 ## A note on storage access control
 
@@ -69,7 +87,7 @@ Supabase's row-level security normally checks `auth.uid()`, which is
 tied to a Supabase-issued login. This project authenticates through
 Firebase instead, so Supabase has no way to know which Firebase user is
 making a request. The policies in `supabase_storage_policies.sql` open
-the bucket to any request carrying the anon key, and rely on the app
+the bucket to any request carrying the public key, and rely on the app
 itself, through Firestore's rules, to only ever show or link to files
 that belong to the signed-in user. This is fine for a student project
 or demo. For a production system, the proper fix is to mint a Supabase-
@@ -102,7 +120,6 @@ one-time code and checks it against what the user types in.
 ## Notes
 
 - No credit card is required anywhere in this setup.
-- Supabase free tier covers 1 GB storage and 2 GB bandwidth a month,
-  which is far more than a student project will use.
 - Firebase Auth and Firestore stay on the no-card Spark plan; only
-  Cloud Storage was the part that started requiring billing.
+  Cloud Storage was the part that started requiring billing, which is
+  why Supabase handles storage instead.
