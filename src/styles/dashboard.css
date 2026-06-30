@@ -1,0 +1,141 @@
+.dashboard {
+  min-height: 100vh;
+}
+
+.dash-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 2.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.dash-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dash-user-name {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.dash-main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+.dash-heading h1 {
+  font-size: 1.9rem;
+  color: var(--paper);
+}
+
+.dash-heading p {
+  margin-top: 0.4rem;
+  font-size: 0.92rem;
+}
+
+.upload-zone {
+  margin-top: 2.4rem;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 2.4rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.upload-zone:hover,
+.upload-zone--active {
+  border-color: var(--amber);
+  background: #232027;
+}
+
+.upload-dial {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 0.9rem;
+  border: 2px solid var(--amber);
+  border-radius: 50%;
+  position: relative;
+}
+
+.upload-dial::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 2px;
+  height: 10px;
+  background: var(--amber);
+  transform: translateX(-50%);
+}
+
+.upload-title {
+  color: var(--paper);
+  font-size: 0.95rem;
+}
+
+.upload-sub {
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.upload-progress {
+  margin-top: 1rem;
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.upload-progress-bar {
+  height: 100%;
+  background: var(--amber);
+  transition: width 0.2s ease;
+}
+
+.ledger-card--full {
+  margin-top: 2.4rem;
+  background: #232027;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.6rem 1.6rem;
+}
+
+.ledger-row--interactive {
+  position: relative;
+}
+
+.ledger-actions {
+  display: flex;
+  gap: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.ledger-row--interactive:hover .ledger-actions {
+  opacity: 1;
+}
+
+.ledger-action {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.ledger-action:hover {
+  color: var(--amber);
+}
+
+.ledger-action--danger:hover {
+  color: var(--rust);
+}
+
+.file-list-empty {
+  margin-top: 2.4rem;
+  text-align: center;
+  font-size: 0.88rem;
+}
