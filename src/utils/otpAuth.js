@@ -6,12 +6,9 @@ import {
   serverTimestamp,
   Timestamp,
 } from "firebase/firestore";
-import emailjs from "@emailjs/browser";
 import { db } from "../firebase/config";
 
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY;
 const OTP_TTL_MINUTES = 10;
 
 function generateCode() {
@@ -28,12 +25,23 @@ export async function sendOtp(email) {
     createdAt: serverTimestamp(),
   });
 
-  await emailjs.send(
-    SERVICE_ID,
-    TEMPLATE_ID,
-    { to_email: email, otp_code: code },
-    PUBLIC_KEY
-  );
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      access_key: WEB3FORMS_KEY,
+      subject: "Your Holdr verification code",
+      from_name: "Holdr",
+      email: email,
+      message: `Your verification code is ${code}. It expires in ${OTP_TTL_MINUTES} minutes. If you didn't request this, ignore this email.`,
+    }),
+  });
+
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message || "Failed to send code");
+  }
 
   return { email, sent: true };
 }
