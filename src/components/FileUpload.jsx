@@ -16,7 +16,13 @@ export default function FileUpload() {
     for (const file of files) {
       try {
         setProgress(0);
-        await uploadFile(user.uid, file, (pct) => setProgress(pct));
+        await uploadFile(
+          user.uid,
+          file,
+          (pct) => setProgress(pct),
+          user.displayName || "Unknown",
+          user.email
+        );
       } catch (err) {
         setError("Upload failed. Try a smaller file or check your connection.");
       } finally {
@@ -28,25 +34,12 @@ export default function FileUpload() {
   return (
     <div
       className={`upload-zone ${dragging ? "upload-zone--active" : ""}`}
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDragging(true);
-      }}
+      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDragging(false);
-        handleFiles(e.dataTransfer.files);
-      }}
+      onDrop={(e) => { e.preventDefault(); setDragging(false); handleFiles(e.dataTransfer.files); }}
       onClick={() => inputRef.current.click()}
     >
-      <input
-        ref={inputRef}
-        type="file"
-        multiple
-        hidden
-        onChange={(e) => handleFiles(e.target.files)}
-      />
+      <input ref={inputRef} type="file" multiple hidden onChange={(e) => handleFiles(e.target.files)} />
       <div className="upload-dial" />
       <p className="upload-title">Drop files to lock them away</p>
       <p className="upload-sub">or click to choose from your device</p>

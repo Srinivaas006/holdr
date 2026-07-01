@@ -195,3 +195,52 @@
     grid-template-columns: 1fr;
   }
 }
+
+.hero-storage-meter {
+  margin-top: 2rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #232027;
+  max-width: 420px;
+}
+
+.hero-meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.6rem;
+}
+
+.hero-meter-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.hero-meter-value {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--amber);
+}
+
+.hero-meter-value span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.hero-meter-track {
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.hero-meter-fill {
+  height: 100%;
+  background: var(--amber);
+  border-radius: 2px;
+  transition: width 0.8s ease;
+}

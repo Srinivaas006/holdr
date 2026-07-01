@@ -1,21 +1,30 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { subscribeToGlobalStats, formatBytes } from "../utils/storageHelpers";
 import "../styles/landing.css";
 
+const TOTAL_BYTES = 1 * 1024 * 1024 * 1024;
+
 export default function Landing() {
+  const [stats, setStats] = useState({ totalBytes: 0 });
+
+  useEffect(() => {
+    const unsub = subscribeToGlobalStats(setStats);
+    return unsub;
+  }, []);
+
+  const usedPct = Math.min((stats.totalBytes / TOTAL_BYTES) * 100, 100);
+
   return (
     <div className="landing">
       <header className="landing-nav">
         <div className="brand">
-          <span className="brand-mark">V</span>
+          <span className="brand-mark">H</span>
           <span>Holdr</span>
         </div>
         <nav>
-          <Link to="/login" className="nav-link">
-            Log in
-          </Link>
-          <Link to="/signup" className="nav-link nav-link--solid">
-            Get started
-          </Link>
+          <Link to="/login" className="nav-link">Log in</Link>
+          <Link to="/signup" className="nav-link nav-link--solid">Get started</Link>
         </nav>
       </header>
 
@@ -33,12 +42,23 @@ export default function Landing() {
             surprise charges.
           </p>
           <div className="hero-actions">
-            <Link to="/signup" className="btn btn-primary">
-              Create your vault
-            </Link>
-            <Link to="/login" className="btn btn-ghost">
-              I already have one
-            </Link>
+            <Link to="/signup" className="btn btn-primary">Create your vault</Link>
+            <Link to="/login" className="btn btn-ghost">I already have one</Link>
+          </div>
+
+          <div className="hero-storage-meter fade-up">
+            <div className="hero-meter-header">
+              <span className="hero-meter-label">Vault capacity</span>
+              <span className="hero-meter-value">
+                {formatBytes(stats.totalBytes)} <span>of 1.0 GB used</span>
+              </span>
+            </div>
+            <div className="hero-meter-track">
+              <div
+                className="hero-meter-fill"
+                style={{ width: `${usedPct}%` }}
+              />
+            </div>
           </div>
         </div>
 
