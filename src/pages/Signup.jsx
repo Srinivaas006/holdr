@@ -27,7 +27,7 @@ export default function Signup() {
       await sendOtp(email);
       setStep("otp");
     } catch (err) {
-      setError("Could not send the code. Check the email and try again.");
+      setError(err.message || "Could not send the code. Check the email and try again.");
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,7 @@ export default function Signup() {
       await register(name, email, password);
       navigate("/dashboard");
     } catch (err) {
-      setError("Could not create that account. The email may already be in use.");
+      setError(err.message || "Could not create that account. The email may already be in use.");
     } finally {
       setLoading(false);
     }
