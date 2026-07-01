@@ -34,15 +34,17 @@ async function updateGlobalStats(byteDelta) {
 export async function uploadFile(uid, file, onProgress, ownerName, ownerEmail) {
   const path = `${uid}/${Date.now()}_${file.name}`;
 
-  if (onProgress) onProgress(10);
-
   const { error: uploadError } = await supabase.storage
     .from(FILES_BUCKET)
-    .upload(path, file, { upsert: false });
+    .upload(path, file, {
+      upsert: false,
+      onUploadProgress: (progress) => {
+        const pct = Math.round((progress.loaded / progress.total) * 90);
+        if (onProgress) onProgress(pct);
+      },
+    });
 
   if (uploadError) throw uploadError;
-
-  if (onProgress) onProgress(70);
 
   const { data: urlData } = supabase.storage
     .from(FILES_BUCKET)
